@@ -109,6 +109,9 @@ async def on_message(message):
 
     if message.content.startswith('<players'):
         await message.channel.send(player)
+    
+    if message.content.startswith('<reset'):
+      game_state = 0
         
     if message.content.startswith('<playerlist'):
       await message.channel.send('Playerlist:')
@@ -118,7 +121,7 @@ async def on_message(message):
       await message.channel.send("---------------------------------------------------")
 
     if message.content.startswith('<letsa go'):
-      global game_state       #game state management
+           #game state management
       if game_state == 1:       #correct game state reached?
         game_cards = cards
         random.shuffle(game_cards)
@@ -127,8 +130,9 @@ async def on_message(message):
           user = player[x]
           print(game_cards[0])
           print(game_cards[1])
-          await user.send(str(game_cards[0])) #Karte 1 zusenden
-          await user.send(str(game_cards[1])) #Karte 2 zusenden
+          
+          await user.send(file=discord.File(str(game_cards[0]) + ".png")) #Karte 1 zusenden
+          await user.send(file=discord.File(str(game_cards[1]) + ".png")) #Karte 2 zusenden
           game_cards  = np.delete(game_cards, [0])
           game_cards  = np.delete(game_cards, [0])  #array 1 kürzer
 
